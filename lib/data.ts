@@ -174,5 +174,5 @@ export const footerData = {
     { label: "Portfolio", href: "#about" },
   ],
   copyright: "© 2026 Konstantin Azarov. All rights reserved.",
-  tagline: "Built with clean code and strong coffee.",
+  tagline: "Built with Next.js, TypeScript, and strong coffee.",
 };

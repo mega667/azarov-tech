@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { ExperienceEntry } from "@/lib/data";
 import { TagPill } from "@/components/tag-pill";
@@ -13,7 +13,19 @@ type ExperienceItemProps = {
 
 export function ExperienceItem({ entry, isLast, initiallyExpanded = false }: ExperienceItemProps) {
   const [expanded, setExpanded] = useState(initiallyExpanded);
+  const [isMobile, setIsMobile] = useState(false);
   const detailsId = useId();
+  const detailsVisible = !isMobile || expanded;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const updateViewport = () => setIsMobile(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+
+    return () => mediaQuery.removeEventListener("change", updateViewport);
+  }, []);
 
   return (
     <article className="relative pb-3 last:pb-0">
@@ -40,19 +52,11 @@ export function ExperienceItem({ entry, isLast, initiallyExpanded = false }: Exp
               </div>
             </div>
             <p className="mt-2 text-[14px] leading-relaxed text-app-secondary">{entry.description}</p>
-            <ul className="mt-3 hidden space-y-2 text-[14px] leading-relaxed text-app-secondary md:block">
-              {entry.bullets.map((bullet) => (
-                <li key={`desktop-${bullet}`} className="flex gap-2.5">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-app-accent" aria-hidden="true" />
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </ul>
-            <div id={detailsId} className="md:hidden">
-              {expanded ? (
-                <ul className="experience-mobile-details mt-3 space-y-2 text-[14px] leading-relaxed text-app-secondary">
+            <div id={detailsId}>
+              {detailsVisible ? (
+                <ul className="experience-mobile-details mt-3 space-y-2 text-[14px] leading-relaxed text-app-secondary md:animate-none">
                   {entry.bullets.map((bullet) => (
-                    <li key={`mobile-${bullet}`} className="flex gap-2.5">
+                    <li key={bullet} className="flex gap-2.5">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-app-accent" aria-hidden="true" />
                       <span>{bullet}</span>
                     </li>
