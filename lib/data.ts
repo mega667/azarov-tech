@@ -171,7 +171,7 @@ export const footerData = {
   links: [
     { label: "LinkedIn", href: "https://linkedin.com/in/konstantin-azarov" },
     { label: "Credly", href: "https://credly.com/users/konstantin-azarov" },
-    { label: "Portfolio", href: "#about" },
+    { label: "GitHub", href: "https://github.com/mega667" },
   ],
   copyright: "© 2026 Konstantin Azarov. All rights reserved.",
   tagline: "Built with Next.js, TypeScript, and strong coffee.",
